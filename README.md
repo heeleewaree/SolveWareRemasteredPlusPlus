@@ -1,5 +1,6 @@
 # SolveWareRemastered++
 
+<img src="https://sun9-80.userapi.com/impg/E2kTirI9aSAzzXt_2oJxHyW9GPt-HQyiaY8IRQ/iXI5AbuMj8E.jpg?size=1920x1016&quality=96&sign=ce0d7cd5b2ca8177acd671a8a414fb58&type=album" width="1000">
 <img src="https://sun9-23.userapi.com/impg/if0shjomXNUi324CsO2goWDVwQk5HVWU3u-bkw/aV4T4KknxLc.jpg?size=1920x1015&quality=96&sign=7a597434e83b8936fd95dddea119cefd&type=album" width="1000">
 <img src="https://sun9-4.userapi.com/impg/k6arNTxOkY58yQsiflNwn6pG4FDItDipnZwwlg/ljMz8AoY8LM.jpg?size=1920x1018&quality=96&sign=4d6766fa4491166e07109f9d8a3835cc&type=album" width="1000">
 <img src="https://sun9-50.userapi.com/impg/JpYocdSN_ghlKhHrqif7DZ5P8FfWQLG3xJ6W8Q/n4A5QZQIeA0.jpg?size=1920x1017&quality=96&sign=c94acf578490ff53670adda190a15147&type=album" width="1000">
