@@ -1,0 +1,17 @@
+C:\Users\limon\source\repos\SolveWareRemasteredV2\SolveWareRemasteredV2\bin\Release\SolveWareRemasteredV2.exe.config
+C:\Users\limon\source\repos\SolveWareRemasteredV2\SolveWareRemasteredV2\bin\Release\SolveWareRemasteredV2.exe
+C:\Users\limon\source\repos\SolveWareRemasteredV2\SolveWareRemasteredV2\bin\Release\SolveWareRemasteredV2.pdb
+C:\Users\limon\source\repos\SolveWareRemasteredV2\SolveWareRemasteredV2\obj\Release\SolveWareRemasteredV2.Main.resources
+C:\Users\limon\source\repos\SolveWareRemasteredV2\SolveWareRemasteredV2\obj\Release\SolveWareRemasteredV2.Properties.Resources.resources
+C:\Users\limon\source\repos\SolveWareRemasteredV2\SolveWareRemasteredV2\obj\Release\SolveWareRemasteredV2.csproj.GenerateResource.cache
+C:\Users\limon\source\repos\SolveWareRemasteredV2\SolveWareRemasteredV2\obj\Release\SolveWareRemasteredV2.csproj.CoreCompileInputs.cache
+C:\Users\limon\source\repos\SolveWareRemasteredV2\SolveWareRemasteredV2\obj\Release\SolveWareRemasteredV2.exe
+C:\Users\limon\source\repos\SolveWareRemasteredV2\SolveWareRemasteredV2\obj\Release\SolveWareRemasteredV2.pdb
+C:\Users\limon\source\repos\SolveWareRemasteredV2\SolveWareRemasteredV2\obj\Release\SolveWareRemasteredV2.FormSettings.resources
+C:\Users\limon\source\repos\SolveWareRemasteredV2\SolveWareRemasteredV2\obj\Release\SolveWareRemasteredV2.csproj.AssemblyReference.cache
+C:\Users\limon\source\repos\SolveWareRemasteredV2\SolveWareRemasteredV2\obj\Release\SolveWareRemasteredV2.FormAbout.resources
+C:\Users\limon\source\repos\SolveWareRemasteredV2\SolveWareRemasteredV2\obj\Release\SolveWareRemasteredV2.SOC_CE.resources
+C:\Users\limon\source\repos\SolveWareRemasteredV2\SolveWareRemasteredV2\obj\Release\SolveWareRemasteredV2.SOC_GE.resources
+C:\Users\limon\source\repos\SolveWareRemasteredV2\SolveWareRemasteredV2\obj\Release\SolveWareRemasteredV2.PSI.resources
+C:\Users\limon\source\repos\SolveWareRemasteredV2\SolveWareRemasteredV2\obj\Release\SolveWareRemasteredV2.SOS_CE.resources
+C:\Users\limon\source\repos\SolveWareRemasteredV2\SolveWareRemasteredV2\obj\Release\SolveWareRemasteredV2.SOS_GE.resources
