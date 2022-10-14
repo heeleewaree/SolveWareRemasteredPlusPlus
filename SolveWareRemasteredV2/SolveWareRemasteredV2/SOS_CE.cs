@@ -994,18 +994,26 @@ namespace SolveWareRemasteredV2
         {
             if ((textA.Text == "0") && (textB.Text == "0") && (textC.Text == "0"))
                 return;
-            A = 1.0 / Convert.ToDouble(textA.Text);
-            B = 1.0 / Convert.ToDouble(textB.Text);
-            C = 1.0 / Convert.ToDouble(textC.Text);
-            D = -Convert.ToDouble(textD.Text);
-            Tick = Convert.ToDouble(textTick.Text);
-            MaxTrack = Convert.ToInt32(textMaxtrack.Text);
-            trackBar1.Maximum = MaxTrack;
-            trackBar1.Minimum = -MaxTrack;
-            trackBar2.Maximum = MaxTrack;
-            trackBar2.Minimum = -MaxTrack;
-            trackBar3.Maximum = MaxTrack;
-            trackBar3.Minimum = -MaxTrack;
+            try
+            {
+
+                A = 1.0 / Convert.ToDouble(textA.Text);
+                B = 1.0 / Convert.ToDouble(textB.Text);
+                C = 1.0 / Convert.ToDouble(textC.Text);
+                D = -Convert.ToDouble(textD.Text);
+                Tick = Convert.ToDouble(textTick.Text);
+                MaxTrack = Convert.ToInt32(textMaxtrack.Text);
+                trackBar1.Maximum = MaxTrack;
+                trackBar1.Minimum = -MaxTrack;
+                trackBar2.Maximum = MaxTrack;
+                trackBar2.Minimum = -MaxTrack;
+                trackBar3.Maximum = MaxTrack;
+                trackBar3.Minimum = -MaxTrack;
+            }
+            catch
+            {
+                return;
+            }
             PaintAll();
         }
         #endregion

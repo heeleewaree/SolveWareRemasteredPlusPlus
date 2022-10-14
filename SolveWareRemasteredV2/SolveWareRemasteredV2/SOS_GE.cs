@@ -1250,26 +1250,31 @@ namespace SolveWareRemasteredV2
         {
             if ((textA.Text == "0") && (textB.Text == "0") && (textC.Text == "0") && (textF.Text == "0") && (textG.Text == "0") && (textH.Text == "0"))
                 return;
-            if ((textA.Text == "") || (textB.Text == "") || (textC.Text == "") || (textF.Text == "") || (textG.Text == "") || (textH.Text == "") || (textP.Text == "") || (textQ.Text == "") || (textR.Text == "") || (textD.Text == ""))
+            try
+            {
+                A = Convert.ToDouble(textA.Text);
+                B = Convert.ToDouble(textB.Text);
+                C = Convert.ToDouble(textC.Text);
+                F = Convert.ToDouble(textF.Text) / 2.0;
+                G = Convert.ToDouble(textG.Text) / 2.0;
+                H = Convert.ToDouble(textH.Text) / 2.0;
+                P = Convert.ToDouble(textP.Text) / 2.0;
+                Q = Convert.ToDouble(textQ.Text) / 2.0;
+                R = Convert.ToDouble(textR.Text) / 2.0;
+                D = Convert.ToDouble(textD.Text);
+                Tick = Convert.ToDouble(textTick.Text);
+                MaxTrack = Convert.ToInt32(textMaxtrack.Text);
+                trackBar1.Maximum = MaxTrack;
+                trackBar1.Minimum = -MaxTrack;
+                trackBar2.Maximum = MaxTrack;
+                trackBar2.Minimum = -MaxTrack;
+                trackBar3.Maximum = MaxTrack;
+                trackBar3.Minimum = -MaxTrack;
+            }
+            catch
+            {
                 return;
-            A = Convert.ToDouble(textA.Text);
-            B = Convert.ToDouble(textB.Text);
-            C = Convert.ToDouble(textC.Text);
-            F = Convert.ToDouble(textF.Text) / 2.0;
-            G = Convert.ToDouble(textG.Text) / 2.0;
-            H = Convert.ToDouble(textH.Text) / 2.0;
-            P = Convert.ToDouble(textP.Text) / 2.0;
-            Q = Convert.ToDouble(textQ.Text) / 2.0;
-            R = Convert.ToDouble(textR.Text) / 2.0;
-            D = Convert.ToDouble(textD.Text);
-            Tick = Convert.ToDouble(textTick.Text);
-            MaxTrack = Convert.ToInt32(textMaxtrack.Text);
-            trackBar1.Maximum = MaxTrack;
-            trackBar1.Minimum = -MaxTrack;
-            trackBar2.Maximum = MaxTrack;
-            trackBar2.Minimum = -MaxTrack;
-            trackBar3.Maximum = MaxTrack;
-            trackBar3.Minimum = -MaxTrack;
+            }
             PaintAll();
         }
         #endregion
