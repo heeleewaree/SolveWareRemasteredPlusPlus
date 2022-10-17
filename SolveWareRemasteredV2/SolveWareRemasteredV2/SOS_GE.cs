@@ -16,6 +16,7 @@ namespace SolveWareRemasteredV2
             Plot1.MouseWheel += new MouseEventHandler(m_MouseWheel1);
             Plot2.MouseWheel += new MouseEventHandler(m_MouseWheel2);
             Plot3.MouseWheel += new MouseEventHandler(m_MouseWheel3);
+            Plot4.MouseWheel += new MouseEventHandler(m_MouseWheel4);
             PaintAll();
         }
 
@@ -1384,12 +1385,32 @@ namespace SolveWareRemasteredV2
             }
             PaintFunction3();
         }
+        void m_MouseWheel4(object sender, MouseEventArgs e)
+        {
+            if (e.Delta > 0)
+            {
+                if ((scale == 1) || (scale == 7) || (scale == 4))
+                    scale += 3;
+                else
+                    scale += 5;
+            }
+            else
+            {
+                if (scale > 10)
+                    scale -= 5;
+                else if ((scale == 10) || (scale == 7) || (scale == 4))
+                    scale -= 3;
+                else if (scale == 1)
+                    return;
+            }
+            PaintFunction4();
+        }
         #endregion
 
             #region TrackBars
 
-                #region Trackbar 1
-            private void trackBar1_Scroll(object sender, EventArgs e)
+        #region Trackbar 1
+        private void trackBar1_Scroll(object sender, EventArgs e)
             {
                 N1 = Tick * trackBar1.Value;
                 PaintFunction1();

@@ -224,6 +224,7 @@ namespace SolveWareRemasteredV2
                 gamma = gamma / 2.0;
                 tetta = tetta / 2.0;
 
+                
                 angle = Math.Atan((2 * ksi) / (alpha - beta)) / 2;
                 if ((alpha * beta - (ksi * ksi)) != 0)
                 {
@@ -296,8 +297,8 @@ namespace SolveWareRemasteredV2
                 lyambda = -lyambda;
             }
 
-            if (Math.Abs(alpha - beta) == 0)
-                angle = 0;
+            //if (Math.Abs(alpha - beta) == 0)
+                //angle = 0;
 
             result = "";
             int i = 0;
