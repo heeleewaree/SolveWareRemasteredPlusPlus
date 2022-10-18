@@ -311,7 +311,12 @@ namespace SolveWareRemasteredV2
                     else
                         result += Convert.ToString(alpha);
                 }
-                result += "x^2";
+                if (I != 0)
+                    result += "y^2";
+                else if (J != 0)
+                    result += "x^2";
+                else if (K != 0)
+                    result += "x^2";
                 i++;
             }
             if (ksi != 0)
@@ -325,7 +330,12 @@ namespace SolveWareRemasteredV2
                     else
                         result += Convert.ToString(2 * ksi);
                 }
-                result += "xy";
+                if (I != 0)
+                    result += "yz";
+                else if (J != 0)
+                    result += "xz";
+                else if (K != 0)
+                    result += "xy";
                 i++;
             }
             if (beta != 0)
@@ -339,7 +349,12 @@ namespace SolveWareRemasteredV2
                     else
                     result += Convert.ToString(beta);
                 }
-                result += "y^2";
+                if (I != 0)
+                    result += "z^2";
+                else if (J != 0)
+                    result += "z^2";
+                else if (K != 0)
+                    result += "y^2";
                 i++;
             }
             if (gamma != 0)
@@ -353,7 +368,12 @@ namespace SolveWareRemasteredV2
                     else
                         result += Convert.ToString(2 * gamma);
                 }
-                result += "x";
+                if (I != 0)
+                    result += "y";
+                else if (J != 0)
+                    result += "x";
+                else if (K != 0)
+                    result += "x";
                 i++;
             }
             if (tetta != 0)
@@ -367,7 +387,12 @@ namespace SolveWareRemasteredV2
                     else
                         result += Convert.ToString(2 * tetta);
                 }
-                result += "y";
+                if (I != 0)
+                    result += "z";
+                else if (J != 0)
+                    result += "z";
+                else if (K != 0)
+                    result += "y";
                 i++;
             }
             if (lyambda != 0)
@@ -745,10 +770,27 @@ namespace SolveWareRemasteredV2
                 #region Drawing 0, X, Y
                 String drawString = "0";
                 gr.DrawString(drawString, new Font("Times New Roman", 9), NumsPen, OX - 11, OY);
-                drawString = "Xf";
-                gr.DrawString(drawString, new Font("Times New Roman", 9), NumsPen, Plot.Width - 20, OY - 20);
-                drawString = "Yf";
-                gr.DrawString(drawString, new Font("Times New Roman", 9), NumsPen, OX + 5, 13);
+                if (I != 0)
+                {
+                    drawString = "Y";
+                    gr.DrawString(drawString, new Font("Times New Roman", 9), NumsPen, Plot.Width - 20, OY - 20);
+                    drawString = "Z";
+                    gr.DrawString(drawString, new Font("Times New Roman", 9), NumsPen, OX + 5, 13);
+                }
+                else if (J != 0)
+                {
+                    drawString = "X";
+                    gr.DrawString(drawString, new Font("Times New Roman", 9), NumsPen, Plot.Width - 20, OY - 20);
+                    drawString = "Z";
+                    gr.DrawString(drawString, new Font("Times New Roman", 9), NumsPen, OX + 5, 13);
+                }
+                else if (K != 0)
+                {
+                    drawString = "X";
+                    gr.DrawString(drawString, new Font("Times New Roman", 9), NumsPen, Plot.Width - 20, OY - 20);
+                    drawString = "Y";
+                    gr.DrawString(drawString, new Font("Times New Roman", 9), NumsPen, OX + 5, 13);
+                }
                 #endregion
 
                 #region Drawing Nums And Grid
