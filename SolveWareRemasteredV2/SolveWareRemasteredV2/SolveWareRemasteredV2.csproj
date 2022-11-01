@@ -149,6 +149,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="logo332.ico" />
+    <None Include="Resources\pal3_110.png" />
+    <None Include="Resources\pal3_101.png" />
+    <None Include="Resources\pal3_100.png" />
+    <None Include="Resources\pal3_011.png" />
+    <None Include="Resources\pal3_001.png" />
+    <None Include="Resources\pal3_reversed.png" />
     <None Include="Resources\tyan1.png" />
     <None Include="Resources\realdeal.png" />
     <None Include="Resources\pal3.png" />

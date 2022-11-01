@@ -25,8 +25,8 @@ namespace SolveWareRemasteredV2
             pnlSOC.BackColor = smbc;
             pnlSOS.BackColor = smbc;
 
-            btnAbout.ForeColor = tc;
             btnSettings.ForeColor = tc;
+            btnAbout.ForeColor = tc;
             btnPSI.ForeColor = tc;
             btnSOC.ForeColor = tc;
             btnSOC_CE.ForeColor = tc;
@@ -61,7 +61,7 @@ namespace SolveWareRemasteredV2
 
         #region Sub Panels
 
-        #region Hide SubMenu
+            #region Hide SubMenu
         private void HideSubMenu()
         {
             if (pnlSOC.Visible == true)
@@ -278,5 +278,6 @@ namespace SolveWareRemasteredV2
             }
         }
         #endregion
+
     }
 }

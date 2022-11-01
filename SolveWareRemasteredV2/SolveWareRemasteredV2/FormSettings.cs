@@ -12,7 +12,7 @@ namespace SolveWareRemasteredV2
         {
             InitializeComponent();
             CustomDesign();
-            pbColors.MouseDown += new MouseEventHandler(mouseDown1);
+            pbColors.MouseClick += new MouseEventHandler(mouseClick1);
         }
 
         #region Vars
@@ -29,115 +29,169 @@ namespace SolveWareRemasteredV2
         bool btnPC = false;
         bool btnCPC = false;
         bool btnNC = false;
+
+        int colors = 1;
+
+        Color MBC = mbc;
+        Color SMBC = smbc;
+        Color ABC = abc;
+        Color TC = tc;
+
+        Color PBC = pbc;
+        Color MAC = mac;
+        Color NAC = nac;
+        Color RAC = rac;
+        Color GC = gc;
+        Color PC = pc;
+        Color CPC = cpc;
+        Color NC = nc;
         #endregion
 
         #region Form Resize
         private void FormSettings_Resize(object sender, EventArgs e)
         {
-            GC.Collect();
+            System.GC.Collect();
         }
         #endregion
 
         #region GetPixel
-        void mouseDown1(object sender, MouseEventArgs e)
+        void mouseClick1(object sender, MouseEventArgs e)
         {
-            Bitmap btmp = new Bitmap(pbColors.Image, pbColors.Image.Size.Width, pbColors.Image.Size.Height);
-            btmp.SetResolution(pbColors.Image.HorizontalResolution, pbColors.Image.VerticalResolution);
+            #region Left Mouse Button
+            try
+            {
+                if (e.Button == MouseButtons.Left)
+                {
+                    Bitmap btmp = new Bitmap(pbColors.Image, pbColors.Image.Size.Width, pbColors.Image.Size.Height);
+                    btmp.SetResolution(pbColors.Image.HorizontalResolution, pbColors.Image.VerticalResolution);
 
-            double xratio = 1.0 * pbColors.Width / pbColors.Image.Width;
-            double yratio = 1.0 * pbColors.Height / pbColors.Image.Height;
-            int x = (int)(e.X / xratio);
-            int y = (int)(e.Y / yratio);
+                    double xratio = 1.0 * pbColors.Width / pbColors.Image.Width;
+                    double yratio = 1.0 * pbColors.Height / pbColors.Image.Height;
+                    int x = (int)(e.X / xratio);
+                    int y = (int)(e.Y / yratio);
 
-            Color color = btmp.GetPixel(x, y);
+                    Color color = btmp.GetPixel(x, y);
 
-            #region Application Settings
-            if (btnMBC)
-            {
-                btnMenuBackColor.ForeColor = color;
-                btnMenuBackColor.FlatAppearance.BorderSize = 10;
-                mbc = color;
-                btnMBC = false;
+                    #region Application Settings
+                    if (btnMBC)
+                    {
+                        btnMenuBackColor.ForeColor = color;
+                        btnMenuBackColor.FlatAppearance.BorderSize = 10;
+                        MBC = color;
+                        btnMBC = false;
+                    }
+                    if (btnSMBC)
+                    {
+                        btnSubMenuBackColor.ForeColor = color;
+                        btnSubMenuBackColor.FlatAppearance.BorderSize = 10;
+                        SMBC = color;
+                        btnSMBC = false;
+                    }
+                    if (btnABC)
+                    {
+                        btnAppColor.ForeColor = color;
+                        btnAppColor.FlatAppearance.BorderSize = 10;
+                        ABC = color;
+                        btnABC = false;
+                    }
+                    if (btnTC)
+                    {
+                        btnTextColor.ForeColor = color;
+                        btnTextColor.FlatAppearance.BorderSize = 10;
+                        TC = color;
+                        btnTC = false;
+                    }
+                    #endregion
+
+                    #region Plot Settings
+                    if (btnPBC)
+                    {
+                        btnPlotBackColor.ForeColor = color;
+                        btnPlotBackColor.FlatAppearance.BorderSize = 10;
+                        PBC = color;
+                        btnPBC = false;
+                    }
+                    if (btnMAC)
+                    {
+                        btnMainAxesColor.ForeColor = color;
+                        btnMainAxesColor.FlatAppearance.BorderSize = 10;
+                        MAC = color;
+                        btnMAC = false;
+                    }
+                    if (btnNAC)
+                    {
+                        btnNewAxesColor.ForeColor = color;
+                        btnNewAxesColor.FlatAppearance.BorderSize = 10;
+                        NAC = color;
+                        btnNAC = false;
+                    }
+                    if (btnRAC)
+                    {
+                        btnRotatedAxesColor.ForeColor = color;
+                        btnRotatedAxesColor.FlatAppearance.BorderSize = 10;
+                        RAC = color;
+                        btnRAC = false;
+                    }
+                    if (btnGC)
+                    {
+                        btnGridColor.ForeColor = color;
+                        btnGridColor.FlatAppearance.BorderSize = 10;
+                        GC = color;
+                        btnGC = false;
+                    }
+                    if (btnPC)
+                    {
+                        btnPlotColor.ForeColor = color;
+                        btnPlotColor.FlatAppearance.BorderSize = 10;
+                        PC = color;
+                        btnPC = false;
+                    }
+                    if (btnCPC)
+                    {
+                        btnCrossingPointsColor.ForeColor = color;
+                        btnCrossingPointsColor.FlatAppearance.BorderSize = 10;
+                        CPC = color;
+                        btnCPC = false;
+                    }
+                    if (btnNC)
+                    {
+                        btnNumsColor.ForeColor = color;
+                        btnNumsColor.FlatAppearance.BorderSize = 10;
+                        NC = color;
+                        btnNC = false;
+                    }
+                    #endregion
+                }
             }
-            if (btnSMBC)
+            catch
             {
-                btnSubMenuBackColor.ForeColor = color;
-                btnSubMenuBackColor.FlatAppearance.BorderSize = 10;
-                smbc = color;
-                btnSMBC = false;
-            }
-            if (btnABC)
-            {
-                btnAppColor.ForeColor = color;
-                btnAppColor.FlatAppearance.BorderSize = 10;
-                abc = color;
-                btnABC = false;
-            }
-            if (btnTC)
-            {
-                btnTextColor.ForeColor = color;
-                btnTextColor.FlatAppearance.BorderSize = 10;
-                tc = color;
-                btnTC = false;
+                return;
             }
             #endregion
 
-            #region Plot Settings
-            if (btnPBC)
+            #region Right Mouse Button
+            try
             {
-                btnPlotBackColor.ForeColor = color;
-                btnPlotBackColor.FlatAppearance.BorderSize = 10;
-                pbc = color;
-                btnPBC = false;
+                if (e.Button == MouseButtons.Right)
+                {
+                    switch (colors)
+                    {
+                        case 0: { pbColors.Image = Properties.Resources.pal3; colors = 1; } break;
+                        case 1: { pbColors.Image = Properties.Resources.pal3_reversed; colors = 2; } break;
+                        case 2: { pbColors.Image = Properties.Resources.pal3_001; colors = 3; } break;
+                        case 3: { pbColors.Image = Properties.Resources.pal3_011; colors = 4; } break;
+                        case 4: { pbColors.Image = Properties.Resources.pal3_100; colors = 5; } break;
+                        case 5: { pbColors.Image = Properties.Resources.pal3_101; colors = 6; } break;
+                        case 6: { pbColors.Image = Properties.Resources.pal3_110; colors = 0; } break;
+
+                        default: break;
+                    }
+                    System.GC.Collect();
+                }
             }
-            if (btnMAC)
+            catch
             {
-                btnMainAxesColor.ForeColor = color;
-                btnMainAxesColor.FlatAppearance.BorderSize = 10;
-                mac = color;
-                btnMAC = false;
-            }
-            if (btnNAC)
-            {
-                btnNewAxesColor.ForeColor = color;
-                btnNewAxesColor.FlatAppearance.BorderSize = 10;
-                nac = color;
-                btnNAC = false;
-            }
-            if (btnRAC)
-            {
-                btnRotatedAxesColor.ForeColor = color;
-                btnRotatedAxesColor.FlatAppearance.BorderSize = 10;
-                rac = color;
-                btnRAC = false;
-            }
-            if (btnGC)
-            {
-                btnGridColor.ForeColor = color;
-                btnGridColor.FlatAppearance.BorderSize = 10;
-                gc = color;
-                btnGC = false;
-            }
-            if (btnPC)
-            {
-                btnPlotColor.ForeColor = color;
-                btnPlotColor.FlatAppearance.BorderSize = 10;
-                pc = color;
-                btnPC = false;
-            }
-            if (btnCPC)
-            {
-                btnCrossingPointsColor.ForeColor = color;
-                btnCrossingPointsColor.FlatAppearance.BorderSize = 10;
-                cpc = color;
-                btnCPC = false;
-            }
-            if (btnNC)
-            {
-                btnNumsColor.ForeColor = color;
-                btnNumsColor.FlatAppearance.BorderSize = 10;
-                nc = color;
-                btnNC = false;
+                return;
             }
             #endregion
         }
@@ -314,39 +368,45 @@ namespace SolveWareRemasteredV2
         #region Custom Design
         private void CustomDesign()
         {
-            btnMenuBackColor.ForeColor = mbc;
-            btnSubMenuBackColor.ForeColor = smbc;
-            btnAppColor.ForeColor = abc;
-            btnTextColor.ForeColor = tc;
+            try
+            {
+                btnMenuBackColor.ForeColor = mbc;
+                btnSubMenuBackColor.ForeColor = smbc;
+                btnAppColor.ForeColor = abc;
+                btnTextColor.ForeColor = tc;
 
-            btnPlotBackColor.ForeColor = pbc;
-            btnMainAxesColor.ForeColor = mac;
-            btnNewAxesColor.ForeColor = nac;
-            btnRotatedAxesColor.ForeColor = rac;
-            btnGridColor.ForeColor = gc;
-            btnPlotColor.ForeColor = pc;
-            btnCrossingPointsColor.ForeColor = cpc;
-            btnNumsColor.ForeColor = nc;
+                btnPlotBackColor.ForeColor = pbc;
+                btnMainAxesColor.ForeColor = mac;
+                btnNewAxesColor.ForeColor = nac;
+                btnRotatedAxesColor.ForeColor = rac;
+                btnGridColor.ForeColor = gc;
+                btnPlotColor.ForeColor = pc;
+                btnCrossingPointsColor.ForeColor = cpc;
+                btnNumsColor.ForeColor = nc;
 
-            this.BackColor = abc;
-            txtApplicationSettings.ForeColor = tc;
-            txtMenuBackColor.ForeColor = tc;
-            txtSubMenuBackColor.ForeColor = tc;
-            txtAppColor.ForeColor = tc;
-            txtTextColor.ForeColor = tc;
-            txtPlotSettings.ForeColor = tc;
-            txtPlotBackColor.ForeColor = tc;
-            txtMainAxesColor.ForeColor = tc;
-            txtNewAxesColor.ForeColor = tc;
-            txtRotatedAxesColor.ForeColor = tc;
-            txtGridColor.ForeColor = tc;
-            txtPlotColor.ForeColor = tc;
-            txtCrossingPointsColor.ForeColor = tc;
-            txtNumsColor.ForeColor = tc;
+                this.BackColor = abc;
+                txtApplicationSettings.ForeColor = tc;
+                txtMenuBackColor.ForeColor = tc;
+                txtSubMenuBackColor.ForeColor = tc;
+                txtAppColor.ForeColor = tc;
+                txtTextColor.ForeColor = tc;
+                txtPlotSettings.ForeColor = tc;
+                txtPlotBackColor.ForeColor = tc;
+                txtMainAxesColor.ForeColor = tc;
+                txtNewAxesColor.ForeColor = tc;
+                txtRotatedAxesColor.ForeColor = tc;
+                txtGridColor.ForeColor = tc;
+                txtPlotColor.ForeColor = tc;
+                txtCrossingPointsColor.ForeColor = tc;
+                txtNumsColor.ForeColor = tc;
 
-            btnSave.ForeColor = tc;
-            btnReset.ForeColor = tc;
-
+                btnSave.ForeColor = tc;
+                btnReset.ForeColor = tc;
+            }
+            catch
+            {
+                return;
+            }
         }
         #endregion
 
@@ -355,6 +415,20 @@ namespace SolveWareRemasteredV2
         {
             try
             {
+                mbc = MBC;
+                smbc = SMBC;
+                abc = ABC;
+                tc = TC;
+
+                pbc = PBC;
+                mac = MAC;
+                nac = NAC;
+                rac = RAC;
+                gc = GC;
+                pc = PC;
+                cpc = CPC;
+                nc = NC;
+
                 StreamWriter file = new StreamWriter("Settings.cfg");
                 file.Write(mbc.A);
                 file.Write(";");
@@ -473,25 +547,25 @@ namespace SolveWareRemasteredV2
 
             CustomDesign();
             this.Close();
-            GC.Collect();
+            System.GC.Collect();
         }
         #endregion
 
         #region Button Reset
         private void btnReset_Click(object sender, EventArgs e)
         {
-            mbc = Color.FromArgb(15, 15, 15);
-            smbc = Color.FromArgb(140, 15, 15);
-            abc = Color.FromArgb(20, 20, 20);
-            tc = Color.FromArgb(255, 255, 255);
-            pbc = Color.FromArgb(20, 20, 20);
-            mac = Color.FromArgb(15, 15, 140);
-            nac = Color.FromArgb(15, 140, 15);
-            rac = Color.FromArgb(255, 255, 255);
-            gc = Color.FromArgb(70, 50, 15);
-            pc = Color.FromArgb(255, 255, 255);
-            cpc = Color.FromArgb(140, 15, 15);
-            nc = Color.FromArgb(255, 255, 255);
+            MBC = Color.FromArgb(15, 15, 15);
+            SMBC = Color.FromArgb(140, 15, 15);
+            ABC = Color.FromArgb(20, 20, 20);
+            TC = Color.FromArgb(255, 255, 255);
+            PBC = Color.FromArgb(20, 20, 20);
+            MAC = Color.FromArgb(15, 15, 140);
+            NAC = Color.FromArgb(15, 140, 15);
+            RAC = Color.FromArgb(255, 255, 255);
+            GC = Color.FromArgb(70, 50, 15);
+            PC = Color.FromArgb(255, 255, 255);
+            CPC = Color.FromArgb(140, 15, 15);
+            NC = Color.FromArgb(255, 255, 255);
 
             CustomDesign();
             btnSave_Click(sender, e);
@@ -525,5 +599,6 @@ namespace SolveWareRemasteredV2
             btnNumsColor.FlatAppearance.BorderSize = 10;
         }
         #endregion
+
     }
 }

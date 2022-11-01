@@ -81,7 +81,7 @@ namespace SolveWareRemasteredV2
             this.btnAbout.Name = "btnAbout";
             this.btnAbout.Padding = new System.Windows.Forms.Padding(40, 0, 0, 0);
             this.btnAbout.Size = new System.Drawing.Size(277, 40);
-            this.btnAbout.TabIndex = 8;
+            this.btnAbout.TabIndex = 9;
             this.btnAbout.Text = "ᴀʙᴏᴜᴛ";
             this.btnAbout.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnAbout.UseVisualStyleBackColor = true;
@@ -98,7 +98,7 @@ namespace SolveWareRemasteredV2
             this.btnSettings.Name = "btnSettings";
             this.btnSettings.Padding = new System.Windows.Forms.Padding(40, 0, 0, 0);
             this.btnSettings.Size = new System.Drawing.Size(277, 40);
-            this.btnSettings.TabIndex = 6;
+            this.btnSettings.TabIndex = 8;
             this.btnSettings.Text = "sᴇᴛᴛɪɴɢs";
             this.btnSettings.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnSettings.UseVisualStyleBackColor = true;
@@ -301,7 +301,6 @@ namespace SolveWareRemasteredV2
         #endregion
 
         private System.Windows.Forms.Panel pnlMenu;
-        private System.Windows.Forms.Button btnAbout;
         private System.Windows.Forms.Button btnSettings;
         private System.Windows.Forms.Button btnPSI;
         private System.Windows.Forms.Panel pnlSOS;
@@ -315,6 +314,7 @@ namespace SolveWareRemasteredV2
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Panel pnlSubForm;
         private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.Button btnAbout;
     }
 }
 
