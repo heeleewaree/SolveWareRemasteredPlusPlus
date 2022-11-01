@@ -569,7 +569,7 @@ namespace SolveWareRemasteredV2
 
             CustomDesign();
             btnSave_Click(sender, e);
-
+            /*
             btnMBC = false;
             btnSMBC = false;
             btnABC = false;
@@ -596,9 +596,8 @@ namespace SolveWareRemasteredV2
             btnGridColor.FlatAppearance.BorderSize = 10;
             btnPlotColor.FlatAppearance.BorderSize = 10;
             btnCrossingPointsColor.FlatAppearance.BorderSize = 10;
-            btnNumsColor.FlatAppearance.BorderSize = 10;
+            btnNumsColor.FlatAppearance.BorderSize = 10;*/
         }
         #endregion
-
     }
 }

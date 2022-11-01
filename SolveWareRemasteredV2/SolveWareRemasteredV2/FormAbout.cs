@@ -19,15 +19,15 @@ namespace SolveWareRemasteredV2
             txtVersion.ForeColor = tc;
             txtCoder.LinkColor = tc;
             txtTextAbout.ForeColor = tc;
+            txtVersion.Text = "v 2.2";
             GC.Collect();
         }
         #endregion
 
-        #region Coder And Version
+        #region Coder
         private void txtCoder_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("https://www.vk.com/65k_na_moih_nogah");
-            txtVersion.Text = "v 2.1";
         }
         #endregion
     }

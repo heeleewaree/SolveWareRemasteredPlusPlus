@@ -1148,26 +1148,26 @@ namespace SolveWareRemasteredV2
 
             #region TrackBars
 
-        #region Trackbar 1
+                #region Trackbar 1
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
-            N1 = Tick * trackBar1.Value;
+            N1 = -Tick * trackBar1.Value;
             PaintFunction1();
         }
         #endregion
 
-            #region Trackbar 2
+                #region Trackbar 2
         private void trackBar2_Scroll(object sender, EventArgs e)
         {
-            N2 = Tick * trackBar2.Value;
+            N2 = -Tick * trackBar2.Value;
             PaintFunction2();
         }
         #endregion
 
-            #region Trackbar 3
+                #region Trackbar 3
         private void trackBar3_Scroll(object sender, EventArgs e)
         {
-            N3 = Tick * trackBar3.Value;
+            N3 = -Tick * trackBar3.Value;
             PaintFunction3();
         }
         #endregion
