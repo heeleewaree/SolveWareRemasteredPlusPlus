@@ -34,6 +34,19 @@ namespace SolveWareRemasteredV2
             btnSOS.ForeColor = tc;
             btnSOS_CE.ForeColor = tc;
             btnSOS_GE.ForeColor = tc;
+
+            ButtonsDesign();
+        }
+        #endregion
+
+        #region Buttons Design
+        private void ButtonsDesign()
+        {
+            btnSOC.BackColor = mbc;
+            btnSOS.BackColor = mbc;
+            btnPSI.BackColor = mbc;
+            btnSettings.BackColor = mbc;
+            btnAbout.BackColor = mbc;
         }
         #endregion
 
@@ -99,6 +112,7 @@ namespace SolveWareRemasteredV2
                 ActiveForm.Close();
             OpenSubForm(new SOC_CE());
             HideSubMenu();
+            btnSOC.BackColor = abc;
         }
         private void btnSOC_GE_Click(object sender, EventArgs e)
         {
@@ -106,6 +120,7 @@ namespace SolveWareRemasteredV2
                 ActiveForm.Close();
             OpenSubForm(new SOC_GE());
             HideSubMenu();
+            btnSOC.BackColor = abc;
         }
         #endregion
 
@@ -120,6 +135,7 @@ namespace SolveWareRemasteredV2
                 ActiveForm.Close();
             OpenSubForm(new SOS_CE());
             HideSubMenu();
+            btnSOS.BackColor = abc;
         }
         private void btnSOS_GE_Click(object sender, EventArgs e)
         {
@@ -127,6 +143,7 @@ namespace SolveWareRemasteredV2
                 ActiveForm.Close();
             OpenSubForm(new SOS_GE());
             HideSubMenu();
+            btnSOS.BackColor = abc;
         }
         #endregion
 
@@ -137,6 +154,8 @@ namespace SolveWareRemasteredV2
                 ActiveForm.Close();
             OpenSubForm(new PSI());
             HideSubMenu();
+            ButtonsDesign();
+            btnPSI.BackColor = abc;
         }
         #endregion
 
@@ -146,7 +165,9 @@ namespace SolveWareRemasteredV2
             if (ActiveForm != null)
                 ActiveForm.Close();
             OpenSubForm(new FormSettings());
-            HideSubMenu();
+            HideSubMenu(); 
+            ButtonsDesign();
+            btnSettings.BackColor = abc;
         }
         #endregion
 
@@ -157,6 +178,8 @@ namespace SolveWareRemasteredV2
                 ActiveForm.Close();
             OpenSubForm(new FormAbout());
             HideSubMenu();
+            ButtonsDesign();
+            btnAbout.BackColor = abc;
         }
         #endregion
 
