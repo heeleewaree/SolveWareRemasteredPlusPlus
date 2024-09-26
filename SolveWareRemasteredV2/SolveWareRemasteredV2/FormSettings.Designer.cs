@@ -423,6 +423,9 @@ namespace SolveWareRemasteredV2
             this.pbColors.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pbColors.TabIndex = 26;
             this.pbColors.TabStop = false;
+            this.pbColors.MouseEnter += new System.EventHandler(this.pbColors_MouseEnter);
+            this.pbColors.MouseLeave += new System.EventHandler(this.pbColors_MouseLeave);
+            this.pbColors.MouseHover += new System.EventHandler(this.pbColors_MouseHover);
             // 
             // FormSettings
             // 

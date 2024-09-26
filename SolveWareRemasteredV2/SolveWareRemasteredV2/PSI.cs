@@ -3,6 +3,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using static SolveWareRemasteredV2.GlobalVars;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace SolveWareRemasteredV2
 {
@@ -14,6 +15,9 @@ namespace SolveWareRemasteredV2
             ReadFromFile();
             CustomDesign();
             Plot.MouseWheel += new MouseEventHandler(m_MouseWheel);
+            Plot.MouseMove += new MouseEventHandler(mouseMove1);
+            Plot.MouseDown += new MouseEventHandler(mouseDown1);
+            Plot.MouseUp += new MouseEventHandler(mouseUp1);
         }
 
         #region Vars
@@ -32,6 +36,18 @@ namespace SolveWareRemasteredV2
         int scale = 40;
         double Ox1, Ox2, Oy1, Oy2;
         double x, y, x1, x2, y1, y2, d;
+        bool status = false;
+        int CurX, CurY;
+        Pen MainAxesPen = new Pen(mac);
+        Pen NewAxesPen = new Pen(nac);
+        SolidBrush NumsPen = new SolidBrush(nc);
+        Pen RotatedAxesPen = new Pen(rac);
+        SolidBrush FigurePen = new SolidBrush(pc);
+        Pen GridPen = new Pen(gc);
+        SolidBrush CrossingPointsPen = new SolidBrush(cpc);
+        Point p1, p2;
+        Graphics gr;
+        Bitmap btmp;
         #endregion
 
         #region Custom Design
@@ -68,7 +84,6 @@ namespace SolveWareRemasteredV2
             txtAngle.ForeColor = tc;
             btnApply.ForeColor = tc;
             btnSave.ForeColor = tc;
-            btnCenter.ForeColor = tc;
             checkCrossingPoints.Checked = checkCP;
             checkHideNums.Checked = checkHN;
             checkGrid.Checked = checkG;
@@ -489,9 +504,9 @@ namespace SolveWareRemasteredV2
                 txtEllipse.Text = "S = ";
                 double g = 2.0 / (Math.Sqrt(4 * alpha * beta - (2 * ksi) * (2 * ksi)) / (-(Invariant3 / Invariant2)));
                 if (g != 1)
-                    txtEllipse.Text += Convert.ToString(g) + "Pi";
+                    txtEllipse.Text += Convert.ToString(g) + " 𝞹";
                 else
-                    txtEllipse.Text += "Pi";
+                    txtEllipse.Text += " 𝞹";
             }
             else
                 txtEllipse.Text = "";
@@ -568,16 +583,8 @@ namespace SolveWareRemasteredV2
         #endregion
 
         #region Buttons
-
-            #region Button Centering
-        private void btnCenter_Click(object sender, EventArgs e)
-        {
-            scale = 40;
-            PaintFunction();
-        }
-        #endregion
-
-            #region Button Save
+         
+        #region Button Save
         private void btnSave_Click(object sender, EventArgs e)
         {
             try
@@ -632,7 +639,7 @@ namespace SolveWareRemasteredV2
         }
         #endregion
 
-            #region Button Apply
+        #region Button Apply
         private void btnApply_Click(object sender, EventArgs e)
         {
             if ((textA.Text == "0") && (textB.Text == "0") && (textC.Text == "0") && (textF.Text == "0") && (textG.Text == "0") && (textH.Text == "0"))
@@ -659,6 +666,16 @@ namespace SolveWareRemasteredV2
             {
                 return;
             }
+        }
+        #endregion
+
+        #region Centering
+        private void Plot_DoubleClick(object sender, EventArgs e)
+        {
+            scale = 40;
+            OX = Plot.Width / 2;
+            OY = Plot.Height / 2;
+            PaintFunction();
         }
         #endregion
 
@@ -723,328 +740,336 @@ namespace SolveWareRemasteredV2
         {
             try
             {
-                Bitmap btmp = new Bitmap(Plot.Width, Plot.Height);
+                btmp = new Bitmap(Plot.Width, Plot.Height);
                 Plot.Image = btmp;
-                Graphics gr = Graphics.FromImage(Plot.Image);
+                gr = Graphics.FromImage(Plot.Image);
 
-                AccuracyFound();
-
-                #region Pens
                 Plot.BackColor = pbc;
-                Pen MainAxesPen = new Pen(mac);
-                Pen NewAxesPen = new Pen(nac);
-                SolidBrush NumsPen = new SolidBrush(nc);
-                Pen RotatedAxesPen = new Pen(rac);
-                SolidBrush FigurePen = new SolidBrush(pc);
-                Pen GridPen = new Pen(gc);
-                SolidBrush CrossingPointsPen = new SolidBrush(cpc);
-                #endregion
-
+                
                 #region Main Axes
-                Point p1 = new Point(OX, 0);
-                Point p2 = new Point(OX, Plot.Height);
+                p1 = new Point(OX, 0);
+                p2 = new Point(OX, Plot.Height);
                 gr.DrawLine(MainAxesPen, p1, p2);
                 p1 = new Point(0, OY);
                 p2 = new Point(Plot.Width, OY);
                 gr.DrawLine(MainAxesPen, p1, p2);
                 #endregion
 
-                #region New Axes
-                if (figure != "Parabola")
+                if (!status)
                 {
-                    if (x0 != 0)
-                    {
-                        p1 = new Point(OX + (int)(x0 * scale), 0);
-                        p2 = new Point(OX + (int)(x0 * scale), 100 * OY);
-                        gr.DrawLine(NewAxesPen, p1, p2);
-                    }
-                    if (y0 != 0)
-                    {
-                        p1 = new Point(0, OY - (int)(y0 * scale));
-                        p2 = new Point(100 * OX + (int)(x0 * scale), OY - (int)(y0 * scale));
-                        gr.DrawLine(NewAxesPen, p1, p2);
-                    }
-                }
-                #endregion
+                    AccuracyFound();
 
-                #region Drawing 0, X, Y
-                String drawString = "0";
-                gr.DrawString(drawString, new Font("Times New Roman", 9), NumsPen, OX - 11, OY);
-                if (I != 0)
-                {
-                    drawString = "Y";
-                    gr.DrawString(drawString, new Font("Times New Roman", 9), NumsPen, Plot.Width - 20, OY - 20);
-                    drawString = "Z";
-                    gr.DrawString(drawString, new Font("Times New Roman", 9), NumsPen, OX + 5, 13);
-                }
-                else if (J != 0)
-                {
-                    drawString = "X";
-                    gr.DrawString(drawString, new Font("Times New Roman", 9), NumsPen, Plot.Width - 20, OY - 20);
-                    drawString = "Z";
-                    gr.DrawString(drawString, new Font("Times New Roman", 9), NumsPen, OX + 5, 13);
-                }
-                else if (K != 0)
-                {
-                    drawString = "X";
-                    gr.DrawString(drawString, new Font("Times New Roman", 9), NumsPen, Plot.Width - 20, OY - 20);
-                    drawString = "Y";
-                    gr.DrawString(drawString, new Font("Times New Roman", 9), NumsPen, OX + 5, 13);
-                }
-                #endregion
-
-                #region Drawing Nums And Grid
-                if (scale > 10)
-                {
-                    int j = 1;
-                    for (int i = OX; i < Plot.Width; i += scale)
+                    #region New Axes
+                    if (figure != "Parabola")
                     {
-                        //grid
-                        if ((i != OX) && (checkG))
+                        if (x0 != 0)
                         {
-                            p1 = new Point(i, 0);
-                            p2 = new Point(i, OY);
-                            gr.DrawLine(GridPen, p1, p2);
-
-                            p1 = new Point(i, OY + 20);
-                            p2 = new Point(i, Plot.Height);
-                            gr.DrawLine(GridPen, p1, p2);
+                            p1 = new Point(OX + (int)(x0 * scale), 0);
+                            p2 = new Point(OX + (int)(x0 * scale), 100 * OY);
+                            gr.DrawLine(NewAxesPen, p1, p2);
                         }
-                        if (!checkHN)
+                        if (y0 != 0)
                         {
-                            //lines
-                            p1 = new Point(i, OY - 4);
-                            p2 = new Point(i, OY + 4);
-                            gr.DrawLine(MainAxesPen, p1, p2);
-                            //nums
-                            drawString = j.ToString();
-                            if (j > 9)
-                                gr.DrawString(drawString, new Font("Times New Roman", 9), NumsPen, i + scale - 7, OY + 5);
-                            else
-                                gr.DrawString(drawString, new Font("Times New Roman", 9), NumsPen, i + scale - 3, OY + 5);
-                            j++;
+                            p1 = new Point(0, OY - (int)(y0 * scale));
+                            p2 = new Point(100 * OX + (int)(x0 * scale), OY - (int)(y0 * scale));
+                            gr.DrawLine(NewAxesPen, p1, p2);
                         }
                     }
-                    j = -1;
-                    for (int i = OX; i > 0; i -= scale)
+                    #endregion
+
+                    #region Drawing 0, X, Y
+                    String drawString = "0";
+                    gr.DrawString(drawString, new Font("Times New Roman", 9), NumsPen, OX - 11, OY);
+                    if (I != 0)
                     {
-                        //grid
-                        if ((i != OX) && (checkG))
-                        {
-                            p1 = new Point(i, 0);
-                            p2 = new Point(i, OY);
-                            gr.DrawLine(GridPen, p1, p2);
-
-                            p1 = new Point(i, OY + 20);
-                            p2 = new Point(i, Plot.Height);
-                            gr.DrawLine(GridPen, p1, p2);
-                        }
-                        if (!checkHN)
-                        {
-
-                            //lines
-                            p1 = new Point(i, OY - 4);
-                            p2 = new Point(i, OY + 4);
-                            gr.DrawLine(MainAxesPen, p1, p2);
-                            //nums
-                            drawString = j.ToString();
-                            if (j < -9)
-                                gr.DrawString(drawString, new Font("Times New Roman", 9), NumsPen, i - scale - 10, OY + 5);
-                            else
-                                gr.DrawString(drawString, new Font("Times New Roman", 9), NumsPen, i - scale - 7, OY + 5);
-                            j--;
-                        }
+                        drawString = "Y";
+                        gr.DrawString(drawString, new Font("Times New Roman", 9), NumsPen, Plot.Width - 20, OY - 20);
+                        drawString = "Z";
+                        gr.DrawString(drawString, new Font("Times New Roman", 9), NumsPen, OX + 5, 13);
                     }
-                    j = 1;
-                    for (int i = OY; i > 0; i -= scale)
+                    else if (J != 0)
                     {
-                        //grid
-                        if ((i != OY) && (checkG))
-                        {
-                            p1 = new Point(0, i);
-                            p2 = new Point(OX - 20, i);
-                            gr.DrawLine(GridPen, p1, p2);
-
-                            p1 = new Point(OX, i);
-                            p2 = new Point(Plot.Width, i);
-                            gr.DrawLine(GridPen, p1, p2);
-                        }
-                        if (!checkHN)
-                        {
-                            //lines
-                            p1 = new Point(OX - 4, i);
-                            p2 = new Point(OX + 4, i);
-                            gr.DrawLine(MainAxesPen, p1, p2);
-                            //nums
-                            drawString = j.ToString();
-                            if (j > 9)
-                                gr.DrawString(drawString, new Font("Times New Roman", 9), NumsPen, OX - 20, i - scale - 9);
-                            else
-                                gr.DrawString(drawString, new Font("Times New Roman", 9), NumsPen, OX - 16, i - scale - 9);
-                            j++;
-                        }
+                        drawString = "X";
+                        gr.DrawString(drawString, new Font("Times New Roman", 9), NumsPen, Plot.Width - 20, OY - 20);
+                        drawString = "Z";
+                        gr.DrawString(drawString, new Font("Times New Roman", 9), NumsPen, OX + 5, 13);
                     }
-                    j = -1;
-                    for (int i = OY; i < this.Height; i += scale)
+                    else if (K != 0)
                     {
-                        //grid
-                        if ((i != OY) && (checkG))
-                        {
-                            p1 = new Point(0, i);
-                            p2 = new Point(OX - 25, i);
-                            gr.DrawLine(GridPen, p1, p2);
-
-                            p1 = new Point(OX, i);
-                            p2 = new Point(Plot.Width, i);
-                            gr.DrawLine(GridPen, p1, p2);
-                        }
-                        if (!checkHN)
-                        {
-                            //lines
-                            p1 = new Point(OX - 4, i);
-                            p2 = new Point(OX + 4, i);
-                            gr.DrawLine(MainAxesPen, p1, p2);
-                            //nums
-                            drawString = j.ToString();
-                            if (j < -9)
-                                gr.DrawString(drawString, new Font("Times New Roman", 9), NumsPen, OX - 24, i + scale - 9);
-                            else
-                                gr.DrawString(drawString, new Font("Times New Roman", 9), NumsPen, OX - 20, i + scale - 9);
-                            j--;
-                        }
+                        drawString = "X";
+                        gr.DrawString(drawString, new Font("Times New Roman", 9), NumsPen, Plot.Width - 20, OY - 20);
+                        drawString = "Y";
+                        gr.DrawString(drawString, new Font("Times New Roman", 9), NumsPen, OX + 5, 13);
                     }
-                }
-                #endregion
+                    #endregion
 
-                #region Rotated Axes
-                if ((ksi != 0) && (figure != "Parabola"))
-                {
-                    double m1, m2, n1, n2;
-
-                    double XY2 = -Plot.Width;
-                    double XY1 = 0;
-                    m1 = XY1 * Math.Cos(angle) - XY2 * Math.Sin(angle); // rotated x0
-                    m2 = XY1 * Math.Sin(angle) + XY2 * Math.Cos(angle); // rotated y0
-                    XY2 = Plot.Width;
-                    n1 = XY1 * Math.Cos(angle) - XY2 * Math.Sin(angle); // rotated x0
-                    n2 = XY1 * Math.Sin(angle) + XY2 * Math.Cos(angle); // rotated y0
-                    p1 = new Point(OX + (int)(x0 * scale) + (int)(m1 * scale), OY - (int)(y0 * scale) - (int)(m2 * scale));
-                    p2 = new Point(OX + (int)(x0 * scale) + (int)(n1 * scale), OY - (int)(y0 * scale) - (int)(n2 * scale));
-                    gr.DrawLine(RotatedAxesPen, p1, p2);
-
-                    XY1 = -Plot.Width;
-                    XY2 = 0;
-                    m1 = XY1 * Math.Cos(angle) - XY2 * Math.Sin(angle); // rotated x0
-                    m2 = XY1 * Math.Sin(angle) + XY2 * Math.Cos(angle); // rotated y0
-                    XY1 = Plot.Width;
-                    n1 = XY1 * Math.Cos(angle) - XY2 * Math.Sin(angle); // rotated x0
-                    n2 = XY1 * Math.Sin(angle) + XY2 * Math.Cos(angle); // rotated y0
-                    p1 = new Point(OX + (int)(x0 * scale) + (int)(m1 * scale), OY - (int)(y0 * scale) - (int)(m2 * scale));
-                    p2 = new Point(OX + (int)(x0 * scale) + (int)(n1 * scale), OY - (int)(y0 * scale) - (int)(n2 * scale));
-                    gr.DrawLine(RotatedAxesPen, p1, p2);
-                }
-                #endregion
-
-                #region Drawing Figure
-                if (alpha != 0)
-                {
-                    y = -length;
-                    while (y < length)
+                    #region Drawing Nums And Grid
+                    int step = 1;
+                    if (scale <= 15)
+                        step = 5;
+                    if (scale <= 5)
+                        step = 10;
+                    if (scale > 1)
                     {
-                        d = Math.Pow(2 * ksi * y + 2 * gamma, 2) - (4 * alpha * (beta * y * y + 2 * tetta * y + lyambda));
-                        if (d >= 0)
+                        int j = step;
+                        for (int i = OX; i < Plot.Width; i += scale * step)
                         {
-                            x1 = (-1.0 * (2 * ksi * y + 2 * gamma) + Math.Sqrt(d)) / (2 * alpha);
-                            x2 = (-1.0 * (2 * ksi * y + 2 * gamma) - Math.Sqrt(d)) / (2 * alpha);
-                            if ((OX + (int)(x1 * scale) > 0) && (OX + (int)(x1 * scale) < Plot.Width) && (OY - (int)(y * scale) > 0) && (OY - (int)(y * scale) < Plot.Height))
-                                btmp.SetPixel(OX + (int)(x1 * scale), OY - (int)(y * scale), pc);
-                            if ((OX + (int)(x2 * scale) > 0) && (OX + (int)(x2 * scale) < Plot.Width) && (OY - (int)(y * scale) > 0) && (OY - (int)(y * scale) < Plot.Height))
-                                btmp.SetPixel(OX + (int)(x2 * scale), OY - (int)(y * scale), pc);
-                        }
-                        y += accuracy;
-                    }
-                }
-                else if (beta != 0)
-                {
-                    x = -length;
-                    while (x < length)
-                    {
-                        d = Math.Pow(2 * ksi * x + 2 * tetta, 2) - (4 * beta * (alpha * x * x + 2 * gamma * x + lyambda));
-                        if (d >= 0)
-                        {
-                            y1 = (-1.0 * (2 * ksi * x + 2 * tetta) + Math.Sqrt(d)) / (2 * beta);
-                            y2 = (-1.0 * (2 * ksi * x + 2 * tetta) - Math.Sqrt(d)) / (2 * beta);
-                            if ((OX + (int)(x * scale) > 0) && (OX + (int)(x * scale) < Plot.Width) && (OY - (int)(y1 * scale) > 0) && (OY - (int)(y1 * scale) < Plot.Height))
-                                btmp.SetPixel(OX + (int)(x * scale), OY - (int)(y1 * scale), pc);
-                            if ((OX + (int)(x * scale) > 0) && (OX + (int)(x * scale) < Plot.Width) && (OY - (int)(y2 * scale) > 0) && (OY - (int)(y2 * scale) < Plot.Height))
-                                btmp.SetPixel(OX + (int)(x * scale), OY - (int)(y2 * scale), pc);
-                        }
-                        x += accuracy;
-                    }
-                }
-                else
-                {
-                    x = -length;
-                    while (x < length)
-                    {
-                        if (tetta != 0 || ksi != 0)
-                        {
-                            y1 = (-lyambda - 2 * gamma * x) / (2 * ksi * x + 2 * tetta);
-                            if (x < x0)
+                            //grid
+                            if ((i != OX) && (checkG))
                             {
+                                p1 = new Point(i, 0);
+                                p2 = new Point(i, OY);
+                                gr.DrawLine(GridPen, p1, p2);
+                                if (checkHN)
+                                    p1 = new Point(i, OY + 0);
+                                else
+                                    p1 = new Point(i, OY + 20);
+                                p2 = new Point(i, Plot.Height);
+                                gr.DrawLine(GridPen, p1, p2);
+                            }
+                            if (!checkHN)
+                            {
+                                //lines
+                                p1 = new Point(i, OY - 4);
+                                p2 = new Point(i, OY + 4);
+                                gr.DrawLine(MainAxesPen, p1, p2);
+                                //nums
+                                drawString = j.ToString();
+                                if (j > 9)
+                                    gr.DrawString(drawString, new Font("Times New Roman", 9), NumsPen, i + scale * step - 7, OY + 5);
+                                else
+                                    gr.DrawString(drawString, new Font("Times New Roman", 9), NumsPen, i + scale * step - 3, OY + 5);
+                                j += step;
+                            }
+                        }
+                        j = -step;
+                        for (int i = OX; i > 0; i -= scale * step)
+                        {
+                            //grid
+                            if ((i != OX) && (checkG))
+                            {
+                                p1 = new Point(i, 0);
+                                p2 = new Point(i, OY);
+                                gr.DrawLine(GridPen, p1, p2);
+                                if (checkHN)
+                                    p1 = new Point(i, OY + 0);
+                                else
+                                    p1 = new Point(i, OY + 20);
+                                p2 = new Point(i, Plot.Height);
+                                gr.DrawLine(GridPen, p1, p2);
+                            }
+                            if (!checkHN)
+                            {
+
+                                //lines
+                                p1 = new Point(i, OY - 4);
+                                p2 = new Point(i, OY + 4);
+                                gr.DrawLine(MainAxesPen, p1, p2);
+                                //nums
+                                drawString = j.ToString();
+                                if (j < -9)
+                                    gr.DrawString(drawString, new Font("Times New Roman", 9), NumsPen, i - scale * step - 10, OY + 5);
+                                else
+                                    gr.DrawString(drawString, new Font("Times New Roman", 9), NumsPen, i - scale * step - 7, OY + 5);
+                                j -= step;
+                            }
+                        }
+                        j = step;
+                        for (int i = OY; i > 0; i -= scale * step)
+                        {
+                            //grid
+                            if ((i != OY) && (checkG))
+                            {
+                                p1 = new Point(0, i);
+                                if (checkHN)
+                                    p2 = new Point(OX - 0, i);
+                                else
+                                    p2 = new Point(OX - 20, i);
+                                gr.DrawLine(GridPen, p1, p2);
+
+                                p1 = new Point(OX, i);
+                                p2 = new Point(Plot.Width, i);
+                                gr.DrawLine(GridPen, p1, p2);
+                            }
+                            if (!checkHN)
+                            {
+                                //lines
+                                p1 = new Point(OX - 4, i);
+                                p2 = new Point(OX + 4, i);
+                                gr.DrawLine(MainAxesPen, p1, p2);
+                                //nums
+                                drawString = j.ToString();
+                                if (j > 9)
+                                    gr.DrawString(drawString, new Font("Times New Roman", 9), NumsPen, OX - 20, i - scale * step - 9);
+                                else
+                                    gr.DrawString(drawString, new Font("Times New Roman", 9), NumsPen, OX - 16, i - scale * step - 9);
+                                j += step;
+                            }
+                        }
+                        j = -step;
+                        for (int i = OY; i < Plot.Height; i += scale * step)
+                        {
+                            //grid
+                            if ((i != OY) && (checkG))
+                            {
+                                p1 = new Point(0, i);
+                                if (checkHN)
+                                    p2 = new Point(OX - 0, i);
+                                else
+                                    p2 = new Point(OX - 25, i);
+                                gr.DrawLine(GridPen, p1, p2);
+
+                                p1 = new Point(OX, i);
+                                p2 = new Point(Plot.Width, i);
+                                gr.DrawLine(GridPen, p1, p2);
+                            }
+                            if (!checkHN)
+                            {
+                                //lines
+                                p1 = new Point(OX - 4, i);
+                                p2 = new Point(OX + 4, i);
+                                gr.DrawLine(MainAxesPen, p1, p2);
+                                //nums
+                                drawString = j.ToString();
+                                if (j < -9)
+                                    gr.DrawString(drawString, new Font("Times New Roman", 9), NumsPen, OX - 24, i + scale * step - 9);
+                                else
+                                    gr.DrawString(drawString, new Font("Times New Roman", 9), NumsPen, OX - 20, i + scale * step - 9);
+                                j -= step;
+                            }
+                        }
+                    }
+                    #endregion
+
+                    #region Rotated Axes
+                    if ((ksi != 0) && (figure != "Parabola"))
+                    {
+                        double m1, m2, n1, n2;
+
+                        double XY2 = -Plot.Width;
+                        double XY1 = 0;
+                        m1 = XY1 * Math.Cos(angle) - XY2 * Math.Sin(angle); // rotated x0
+                        m2 = XY1 * Math.Sin(angle) + XY2 * Math.Cos(angle); // rotated y0
+                        XY2 = Plot.Width;
+                        n1 = XY1 * Math.Cos(angle) - XY2 * Math.Sin(angle); // rotated x0
+                        n2 = XY1 * Math.Sin(angle) + XY2 * Math.Cos(angle); // rotated y0
+                        p1 = new Point(OX + (int)(x0 * scale) + (int)(m1 * scale), OY - (int)(y0 * scale) - (int)(m2 * scale));
+                        p2 = new Point(OX + (int)(x0 * scale) + (int)(n1 * scale), OY - (int)(y0 * scale) - (int)(n2 * scale));
+                        gr.DrawLine(RotatedAxesPen, p1, p2);
+
+                        XY1 = -Plot.Width;
+                        XY2 = 0;
+                        m1 = XY1 * Math.Cos(angle) - XY2 * Math.Sin(angle); // rotated x0
+                        m2 = XY1 * Math.Sin(angle) + XY2 * Math.Cos(angle); // rotated y0
+                        XY1 = Plot.Width;
+                        n1 = XY1 * Math.Cos(angle) - XY2 * Math.Sin(angle); // rotated x0
+                        n2 = XY1 * Math.Sin(angle) + XY2 * Math.Cos(angle); // rotated y0
+                        p1 = new Point(OX + (int)(x0 * scale) + (int)(m1 * scale), OY - (int)(y0 * scale) - (int)(m2 * scale));
+                        p2 = new Point(OX + (int)(x0 * scale) + (int)(n1 * scale), OY - (int)(y0 * scale) - (int)(n2 * scale));
+                        gr.DrawLine(RotatedAxesPen, p1, p2);
+                    }
+                    #endregion
+
+                    #region Drawing Figure
+                    if (alpha != 0)
+                    {
+                        y = -length;
+                        while (y < length)
+                        {
+                            d = Math.Pow(2 * ksi * y + 2 * gamma, 2) - (4 * alpha * (beta * y * y + 2 * tetta * y + lyambda));
+                            if (d >= 0)
+                            {
+                                x1 = (-1.0 * (2 * ksi * y + 2 * gamma) + Math.Sqrt(d)) / (2 * alpha);
+                                x2 = (-1.0 * (2 * ksi * y + 2 * gamma) - Math.Sqrt(d)) / (2 * alpha);
+                                if ((OX + (int)(x1 * scale) > 0) && (OX + (int)(x1 * scale) < Plot.Width) && (OY - (int)(y * scale) > 0) && (OY - (int)(y * scale) < Plot.Height))
+                                    btmp.SetPixel(OX + (int)(x1 * scale), OY - (int)(y * scale), pc);
+                                if ((OX + (int)(x2 * scale) > 0) && (OX + (int)(x2 * scale) < Plot.Width) && (OY - (int)(y * scale) > 0) && (OY - (int)(y * scale) < Plot.Height))
+                                    btmp.SetPixel(OX + (int)(x2 * scale), OY - (int)(y * scale), pc);
+                            }
+                            y += accuracy;
+                        }
+                    }
+                    else if (beta != 0)
+                    {
+                        x = -length;
+                        while (x < length)
+                        {
+                            d = Math.Pow(2 * ksi * x + 2 * tetta, 2) - (4 * beta * (alpha * x * x + 2 * gamma * x + lyambda));
+                            if (d >= 0)
+                            {
+                                y1 = (-1.0 * (2 * ksi * x + 2 * tetta) + Math.Sqrt(d)) / (2 * beta);
+                                y2 = (-1.0 * (2 * ksi * x + 2 * tetta) - Math.Sqrt(d)) / (2 * beta);
                                 if ((OX + (int)(x * scale) > 0) && (OX + (int)(x * scale) < Plot.Width) && (OY - (int)(y1 * scale) > 0) && (OY - (int)(y1 * scale) < Plot.Height))
                                     btmp.SetPixel(OX + (int)(x * scale), OY - (int)(y1 * scale), pc);
-                            }
-                            if ((x + accuracy > x0) && (x - accuracy < x0))
-                            {
-                                x += accuracy * 10;
-                            }
-                            if (x > x0)
-                            {
-                                if ((OX + (int)(x * scale) > 0) && (OX + (int)(x * scale) < Plot.Width) && (OY - (int)(y1 * scale) > 0) && (OY - (int)(y1 * scale) < Plot.Height))
-                                    btmp.SetPixel(OX + (int)(x * scale), OY - (int)(y1 * scale), pc);
-                            }
-                            x += accuracy;
-                        }
-                        else
-                        {
-                            x1 = (-lyambda - 2 * tetta * x) / (2 * ksi * x + 2 * gamma);
-                            if (x < y0)
-                            {
-                                if ((OX + (int)(x1 * scale) > 0) && (OX + (int)(x1 * scale) < Plot.Width) && (OY - (int)(x * scale) > 0) && (OY - (int)(x * scale) < Plot.Height))
-                                    btmp.SetPixel(OX + (int)(x1 * scale), OY - (int)(x * scale), pc);
-                            }
-                            if ((x + accuracy > y0) && (x - accuracy < y0))
-                            {
-                                x += accuracy * 10;
-                            }
-                            if (x > y0)
-                            {
-                                if ((OX + (int)(x1 * scale) > 0) && (OX + (int)(x1 * scale) < Plot.Width) && (OY - (int)(x * scale) > 0) && (OY - (int)(x * scale) < Plot.Height))
-                                    btmp.SetPixel(OX + (int)(x1 * scale), OY - (int)(x * scale), pc);
+                                if ((OX + (int)(x * scale) > 0) && (OX + (int)(x * scale) < Plot.Width) && (OY - (int)(y2 * scale) > 0) && (OY - (int)(y2 * scale) < Plot.Height))
+                                    btmp.SetPixel(OX + (int)(x * scale), OY - (int)(y2 * scale), pc);
                             }
                             x += accuracy;
                         }
                     }
-                }
-                #endregion
+                    else
+                    {
+                        x = -length;
+                        while (x < length)
+                        {
+                            if (tetta != 0 || ksi != 0)
+                            {
+                                y1 = (-lyambda - 2 * gamma * x) / (2 * ksi * x + 2 * tetta);
+                                if (x < x0)
+                                {
+                                    if ((OX + (int)(x * scale) > 0) && (OX + (int)(x * scale) < Plot.Width) && (OY - (int)(y1 * scale) > 0) && (OY - (int)(y1 * scale) < Plot.Height))
+                                        btmp.SetPixel(OX + (int)(x * scale), OY - (int)(y1 * scale), pc);
+                                }
+                                if ((x + accuracy > x0) && (x - accuracy < x0))
+                                {
+                                    x += accuracy * 10;
+                                }
+                                if (x > x0)
+                                {
+                                    if ((OX + (int)(x * scale) > 0) && (OX + (int)(x * scale) < Plot.Width) && (OY - (int)(y1 * scale) > 0) && (OY - (int)(y1 * scale) < Plot.Height))
+                                        btmp.SetPixel(OX + (int)(x * scale), OY - (int)(y1 * scale), pc);
+                                }
+                                x += accuracy;
+                            }
+                            else
+                            {
+                                x1 = (-lyambda - 2 * tetta * x) / (2 * ksi * x + 2 * gamma);
+                                if (x < y0)
+                                {
+                                    if ((OX + (int)(x1 * scale) > 0) && (OX + (int)(x1 * scale) < Plot.Width) && (OY - (int)(x * scale) > 0) && (OY - (int)(x * scale) < Plot.Height))
+                                        btmp.SetPixel(OX + (int)(x1 * scale), OY - (int)(x * scale), pc);
+                                }
+                                if ((x + accuracy > y0) && (x - accuracy < y0))
+                                {
+                                    x += accuracy * 10;
+                                }
+                                if (x > y0)
+                                {
+                                    if ((OX + (int)(x1 * scale) > 0) && (OX + (int)(x1 * scale) < Plot.Width) && (OY - (int)(x * scale) > 0) && (OY - (int)(x * scale) < Plot.Height))
+                                        btmp.SetPixel(OX + (int)(x1 * scale), OY - (int)(x * scale), pc);
+                                }
+                                x += accuracy;
+                            }
+                        }
+                    }
+                    #endregion
 
-                #region Drawing Crossing Points
-                
-                if (checkCP)
-                {
-                    // points of crossing w/ main axes
-                    if ((Ox1 < double.PositiveInfinity) && (Ox1 > double.NegativeInfinity) && (Ox1 != double.NaN))
-                        gr.FillEllipse(CrossingPointsPen, new Rectangle(OX + (int)(Ox1 * scale) - 3, OY - 3, 6, 6));
-                    if ((Ox2 < double.PositiveInfinity) && (Ox2 > double.NegativeInfinity) && (Ox2 != double.NaN))
-                        gr.FillEllipse(CrossingPointsPen, new Rectangle(OX + (int)(Ox2 * scale) - 3, OY - 3, 6, 6));
-                    if ((Oy1 < double.PositiveInfinity) && (Oy1 > double.NegativeInfinity) && (Oy1 != double.NaN))
-                        gr.FillEllipse(CrossingPointsPen, new Rectangle(OX - 3, OY - (int)(Oy1 * scale) - 3, 6, 6));
-                    if ((Oy2 < double.PositiveInfinity) && (Oy2 > double.NegativeInfinity) && (Oy2 != double.NaN))
-                        gr.FillEllipse(CrossingPointsPen, new Rectangle(OX - 3, OY - (int)(Oy2 * scale) - 3, 6, 6));
-                }
-                #endregion
+                    #region Drawing Crossing Points
 
+                    if (checkCP)
+                    {
+                        // points of crossing w/ main axes
+                        if ((Ox1 < double.PositiveInfinity) && (Ox1 > double.NegativeInfinity) && (Ox1 != double.NaN))
+                            gr.FillEllipse(CrossingPointsPen, new Rectangle(OX + (int)(Ox1 * scale) - 3, OY - 3, 6, 6));
+                        if ((Ox2 < double.PositiveInfinity) && (Ox2 > double.NegativeInfinity) && (Ox2 != double.NaN))
+                            gr.FillEllipse(CrossingPointsPen, new Rectangle(OX + (int)(Ox2 * scale) - 3, OY - 3, 6, 6));
+                        if ((Oy1 < double.PositiveInfinity) && (Oy1 > double.NegativeInfinity) && (Oy1 != double.NaN))
+                            gr.FillEllipse(CrossingPointsPen, new Rectangle(OX - 3, OY - (int)(Oy1 * scale) - 3, 6, 6));
+                        if ((Oy2 < double.PositiveInfinity) && (Oy2 > double.NegativeInfinity) && (Oy2 != double.NaN))
+                            gr.FillEllipse(CrossingPointsPen, new Rectangle(OX - 3, OY - (int)(Oy2 * scale) - 3, 6, 6));
+                    }
+                    #endregion
+                }
                 gr.Dispose();
                 GC.Collect();
             }
@@ -1057,16 +1082,14 @@ namespace SolveWareRemasteredV2
 
         #region Misc
 
-            #region Resize Form
+        #region Resize Form
         private void PSI_Resize(object sender, EventArgs e)
         {
-            OX = Plot.Width / 2;
-            OY = Plot.Height / 2;
             PaintFunction();
         }
         #endregion
 
-            #region KeyPress
+        #region KeyPress
         private void Txt_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (Char.IsNumber(e.KeyChar) | (e.KeyChar == Convert.ToChar(",")) | (e.KeyChar == Convert.ToChar("-")) | e.KeyChar == '\b') return;
@@ -1075,7 +1098,7 @@ namespace SolveWareRemasteredV2
         }
         #endregion
 
-            #region CheckBoxes
+        #region CheckBoxes
 
                 #region CheckBox Of Crossing Points
         private void checkCrossingPoints_CheckedChanged(object sender, EventArgs e)
@@ -1111,7 +1134,7 @@ namespace SolveWareRemasteredV2
 
         #endregion
 
-            #region Mouse Wheel
+        #region Mouse Wheel
         void m_MouseWheel(object sender, MouseEventArgs e)
         {
             if (e.Delta > 0)
@@ -1134,7 +1157,34 @@ namespace SolveWareRemasteredV2
         }
         #endregion
 
-            #region Accuracy Found
+        #region Mouse Move
+        void mouseMove1(object sender, MouseEventArgs e)
+        {
+            if (status)
+            {
+                CurX -= Cursor.Position.X;
+                CurY -= Cursor.Position.Y;
+                OX -= CurX;
+                OY -= CurY;
+                CurX = Cursor.Position.X;
+                CurY = Cursor.Position.Y;
+                PaintFunction();
+            }
+        }
+        void mouseDown1(object sender, MouseEventArgs e)
+        {
+            status = true;
+            CurX = Cursor.Position.X;
+            CurY = Cursor.Position.Y;
+        }
+        void mouseUp1(object sender, MouseEventArgs e)
+        {
+            status = false;
+            PaintFunction();
+        }
+        #endregion
+
+        #region Accuracy Found
         private void AccuracyFound()
         {
             if (scale > 5)

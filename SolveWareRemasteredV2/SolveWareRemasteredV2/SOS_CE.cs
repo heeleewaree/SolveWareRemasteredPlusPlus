@@ -105,9 +105,9 @@ namespace SolveWareRemasteredV2
                 trackBar2.Minimum = -MaxTrack;
                 trackBar3.Maximum = MaxTrack;
                 trackBar3.Minimum = -MaxTrack;
-                N1 = Tick * trackBar1.Value;
-                N2 = Tick * trackBar2.Value;
-                N3 = Tick * trackBar3.Value;
+                N1 = -Tick * trackBar1.Value;
+                N2 = -Tick * trackBar2.Value;
+                N3 = -Tick * trackBar3.Value;
 
                 CalculateFunction();
             }
@@ -448,10 +448,14 @@ namespace SolveWareRemasteredV2
                             }
                         }
                     }
+                #endregion
+
+                    #region Drawing X = 
+                    drawString = "X = " + -N1;
+                    gr.DrawString(drawString, new Font("Times New Roman", 9), NumsPen, 0, 2 * OY - 20);
                     #endregion
 
-
-                    gr.Dispose();
+                gr.Dispose();
                     GC.Collect();
                 }
                 catch
@@ -633,6 +637,10 @@ namespace SolveWareRemasteredV2
                 }
                 #endregion
 
+                #region Drawing Y = 
+                drawString = "Y = " + -N2;
+                gr.DrawString(drawString, new Font("Times New Roman", 9), NumsPen, 0, 2 * OY - 20);
+                #endregion
 
                 gr.Dispose();
                 GC.Collect();
@@ -816,6 +824,10 @@ namespace SolveWareRemasteredV2
                 }
                 #endregion
 
+                #region Drawing Z = 
+                drawString = "Z = " + -N3;
+                gr.DrawString(drawString, new Font("Times New Roman", 9), NumsPen, 0, 2 * OY - 20);
+                #endregion
 
                 gr.Dispose();
                 GC.Collect();
@@ -1156,7 +1168,7 @@ namespace SolveWareRemasteredV2
         }
         #endregion
 
-                #region Trackbar 2
+        #region Trackbar 2
         private void trackBar2_Scroll(object sender, EventArgs e)
         {
             N2 = -Tick * trackBar2.Value;

@@ -19,7 +19,7 @@ namespace SolveWareRemasteredV2
             txtVersion.ForeColor = tc;
             txtCoder.LinkColor = tc;
             txtTextAbout.ForeColor = tc;
-            txtVersion.Text = "v 2.2";
+            txtVersion.Text = "v 2.3";
             GC.Collect();
         }
         #endregion

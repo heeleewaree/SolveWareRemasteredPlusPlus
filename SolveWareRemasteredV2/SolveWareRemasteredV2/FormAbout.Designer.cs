@@ -58,7 +58,7 @@ namespace SolveWareRemasteredV2
             this.txtVersion.Name = "txtVersion";
             this.txtVersion.Size = new System.Drawing.Size(31, 13);
             this.txtVersion.TabIndex = 1;
-            this.txtVersion.Text = "v 2.1";
+            this.txtVersion.Text = "v 2.2";
             // 
             // txtCoder
             // 

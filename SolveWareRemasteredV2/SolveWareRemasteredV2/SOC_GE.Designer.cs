@@ -29,7 +29,6 @@ namespace SolveWareRemasteredV2
         /// </summary>
         private void InitializeComponent()
         {
-            this.btnCenter = new System.Windows.Forms.Button();
             this.btnApply = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.checkGrid = new System.Windows.Forms.CheckBox();
@@ -56,20 +55,6 @@ namespace SolveWareRemasteredV2
             this.Plot = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.Plot)).BeginInit();
             this.SuspendLayout();
-            // 
-            // btnCenter
-            // 
-            this.btnCenter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCenter.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCenter.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
-            this.btnCenter.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.btnCenter.Location = new System.Drawing.Point(1023, 48);
-            this.btnCenter.Name = "btnCenter";
-            this.btnCenter.Size = new System.Drawing.Size(87, 30);
-            this.btnCenter.TabIndex = 85;
-            this.btnCenter.Text = "ᴄᴇɴᴛᴇʀɪɴɢ";
-            this.btnCenter.UseVisualStyleBackColor = true;
-            this.btnCenter.Click += new System.EventHandler(this.btnCenter_Click);
             // 
             // btnApply
             // 
@@ -340,6 +325,7 @@ namespace SolveWareRemasteredV2
             this.Plot.Size = new System.Drawing.Size(865, 549);
             this.Plot.TabIndex = 55;
             this.Plot.TabStop = false;
+            this.Plot.DoubleClick += new System.EventHandler(this.Plot_DoubleClick);
             // 
             // SOC_GE
             // 
@@ -369,7 +355,6 @@ namespace SolveWareRemasteredV2
             this.Controls.Add(this.checkCrossingPoints);
             this.Controls.Add(this.checkHideNums);
             this.Controls.Add(this.btnSave);
-            this.Controls.Add(this.btnCenter);
             this.Controls.Add(this.btnApply);
             this.Controls.Add(this.Plot);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -385,7 +370,6 @@ namespace SolveWareRemasteredV2
         #endregion
 
         private System.Windows.Forms.PictureBox Plot;
-        private System.Windows.Forms.Button btnCenter;
         private System.Windows.Forms.Button btnApply;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.CheckBox checkGrid;

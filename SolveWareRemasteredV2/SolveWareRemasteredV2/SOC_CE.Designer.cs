@@ -46,7 +46,6 @@ namespace SolveWareRemasteredV2
             this.txtFigure = new System.Windows.Forms.Label();
             this.Ooy = new System.Windows.Forms.Label();
             this.Oox = new System.Windows.Forms.Label();
-            this.btnCenter = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.Plot)).BeginInit();
             this.SuspendLayout();
             // 
@@ -162,6 +161,7 @@ namespace SolveWareRemasteredV2
             this.Plot.Size = new System.Drawing.Size(865, 549);
             this.Plot.TabIndex = 54;
             this.Plot.TabStop = false;
+            this.Plot.DoubleClick += new System.EventHandler(this.Plot_DoubleClick);
             // 
             // checkGrid
             // 
@@ -246,27 +246,12 @@ namespace SolveWareRemasteredV2
             this.Oox.Size = new System.Drawing.Size(0, 18);
             this.Oox.TabIndex = 81;
             // 
-            // btnCenter
-            // 
-            this.btnCenter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCenter.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCenter.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
-            this.btnCenter.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.btnCenter.Location = new System.Drawing.Point(1023, 48);
-            this.btnCenter.Name = "btnCenter";
-            this.btnCenter.Size = new System.Drawing.Size(87, 30);
-            this.btnCenter.TabIndex = 83;
-            this.btnCenter.Text = "ᴄᴇɴᴛᴇʀɪɴɢ";
-            this.btnCenter.UseVisualStyleBackColor = true;
-            this.btnCenter.Click += new System.EventHandler(this.btnCenter_Click);
-            // 
             // SOC_CE
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
             this.ClientSize = new System.Drawing.Size(1122, 661);
-            this.Controls.Add(this.btnCenter);
             this.Controls.Add(this.Ooy);
             this.Controls.Add(this.Oox);
             this.Controls.Add(this.txtEllipse);
@@ -313,6 +298,5 @@ namespace SolveWareRemasteredV2
         private System.Windows.Forms.Label txtFigure;
         private System.Windows.Forms.Label Ooy;
         private System.Windows.Forms.Label Oox;
-        private System.Windows.Forms.Button btnCenter;
     }
 }

@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Drawing;
 using System.IO;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Windows.Forms;
 using static SolveWareRemasteredV2.GlobalVars;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace SolveWareRemasteredV2
 {
@@ -45,6 +48,7 @@ namespace SolveWareRemasteredV2
         Color PC = pc;
         Color CPC = cpc;
         Color NC = nc;
+
         #endregion
 
         #region Form Resize
@@ -597,6 +601,30 @@ namespace SolveWareRemasteredV2
             btnPlotColor.FlatAppearance.BorderSize = 10;
             btnCrossingPointsColor.FlatAppearance.BorderSize = 10;
             btnNumsColor.FlatAppearance.BorderSize = 10;*/
+        }
+        #endregion
+
+        #region Tip
+        private void pbColors_MouseHover(object sender, EventArgs e)
+        {
+            System.Windows.Forms.ToolTip ToolTip1 = new System.Windows.Forms.ToolTip();
+            ToolTip1.AutoPopDelay = 2000;
+            ToolTip1.InitialDelay = 2000;
+            ToolTip1.ReshowDelay = 5000;
+            ToolTip1.SetToolTip(pbColors, "Right click to change colors");
+        }
+
+        #endregion
+
+        #region Cursor
+        private void pbColors_MouseEnter(object sender, EventArgs e)
+        {
+            Cursor = Cursors.Cross;
+        }
+
+        private void pbColors_MouseLeave(object sender, EventArgs e)
+        {
+            Cursor = Cursors.Default;
         }
         #endregion
     }
